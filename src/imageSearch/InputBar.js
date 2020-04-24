@@ -13,8 +13,12 @@ const InputBar = ({ setGifData }) => {
         if(!imgurSearch || imgurSearch === lastSearch) return
 
         // i'm in love with this naming convention
-        const data = await axiosCreate(imgurSearch)
-        setGifData(data.data.data)
+        try {
+            const data = await axiosCreate(imgurSearch)
+            setGifData(data.data.data)
+        } catch(err) {
+            console.log(err)
+        }
 
         setLastSearch(imgurSearch)
     }

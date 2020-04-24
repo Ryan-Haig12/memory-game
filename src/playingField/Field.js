@@ -1,25 +1,69 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
+import _ from 'lodash'
 
-import Card from './Card'
+import Card from './Card' 
 
 const Field = ({ gifData }) => {
+    const [ randGifs, setRandGifs ] = useState(undefined)
+    const [ guesses, setGuesses ] = useState({
+        firstGuess: '',
+        secondGuess: '',
+        match: false
+    })
 
     useEffect(() => {
-        console.log(gifData)
+        // get 8 random gifs from gifdata
+        let gifs = _.shuffle(gifData).splice(0, 8)
+        let clone = _.map(gifs, _.cloneDeep).concat(gifs)
+        setRandGifs(_.shuffle(clone))
     }, [ gifData ])
+
+    useEffect(() => {
+        console.log(guesses)
+        if(guesses.secondGuess?.length) {
+            if(guesses.firstGuess === guesses.secondGuess) {
+                console.log('guesses match!')
+                setGuesses({ match: true })
+                setTimeout(() => {
+                    setGuesses({ firstGuess: '', secondGuess: '', match: false })
+                }, 3000)
+            }
+        }
+
+        if(guesses.secondGuess?.length && !guesses.match) {
+            console.log('guesses do not match')
+            setTimeout(() => {
+                setGuesses({ firstGuess: '', secondGuess: '', match: false })
+            }, 3000)
+        }
+
+    }, [ guesses ])
+
+    const guessHandler = guess => {
+        if(guesses.firstGuess === '') {
+            setGuesses({ ...guesses, firstGuess: guess })
+            return
+        } else if(guesses.firstGuess.length) {
+            setGuesses({ ...guesses, secondGuess: guess })
+            return
+        }
+    }
 
     const getCols = (i) => {
         let res = []
 
+        if(!randGifs.length) return
+
         for(let j = 0; j < 4; j++) {
-            const index = (i * 4) + j + 1
+            const index = (i * 4) + j
             res.push(
                 <Card 
-                    gifurl={ gifData[index].images.original.webp }
-                    index={ index } 
-                    onClick={ () => console.log(gifData[index]) }
+                    key={ index }
+                    gifurl={ randGifs[index].images.original.webp }
+                    guessHandler={ guessHandler }
+                    index={ index }
                 />
             )
         }
@@ -43,10 +87,11 @@ const Field = ({ gifData }) => {
         return res
     }
 
-    if(gifData === undefined) return ( <div>No Gif Data</div> )
+    if(gifData === undefined || randGifs === undefined) return ( <div>No Gif Data</div> )
 
     return (
         <Container fluid="sm" >
+            Testo
             { getRows() }
         </Container>
     )
