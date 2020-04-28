@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Col from 'react-bootstrap/Col'
+import Flip from 'react-reveal/Flip'
 
 const Card = ({ gifurl, index, guessHandler, guesses }) => {
 
@@ -27,13 +28,19 @@ const Card = ({ gifurl, index, guessHandler, guesses }) => {
             }}
         >
             { showGif &&
-                <img 
-                    src={ gifurl } 
-                    alt="Be patient..." 
-                    style={{ width: '100%', height: '100%' }}
-                />
+                <Flip right>
+                    <img 
+                        src={ gifurl } 
+                        alt="Be patient..." 
+                        style={{ width: '100%', height: '100%' }}
+                    />
+                </Flip>
             }
-            { !showGif && <p>{ index }</p> }
+            { !showGif && 
+                <Flip right>
+                    <div style={{ background: 'black', width: '100%', height: '100%' }} ></div>
+                </Flip>
+            }
         </Col>
     )
 }
