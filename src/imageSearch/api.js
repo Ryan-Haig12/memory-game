@@ -10,7 +10,7 @@ const axiosCreate = term => {
         'url': `${ proxyurl }${ baseurl }?q=${ term }&api_key=${ apiKey }`,
         'headers': {
             'Access-Control-Allow-Credentials' : true,
-            'Access-Control-Allow-Origin':'*',
+            'access-control-allow-origin':'*',
             'Access-Control-Allow-Methods':'GET',
             'Access-Control-Allow-Headers':'application/json',
         }

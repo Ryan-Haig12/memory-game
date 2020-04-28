@@ -3,31 +3,42 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import _ from 'lodash'
 
-import Card from './Card' 
+import Card from './Card'
 
 const Field = ({ gifData }) => {
     const [ randGifs, setRandGifs ] = useState(undefined)
+    const [ gamestats, setGameStats ] = useState({
+        clicks: 0,
+        matches: 0,
+        seconds: 0,
+    })
     const [ guesses, setGuesses ] = useState({
         firstGuess: '',
         secondGuess: '',
-        match: false
+        match: false,
+        correctGuesses: []
     })
 
+    // get 8 random gifs from gifdata
     useEffect(() => {
-        // get 8 random gifs from gifdata
         let gifs = _.shuffle(gifData).splice(0, 8)
         let clone = _.map(gifs, _.cloneDeep).concat(gifs)
         setRandGifs(_.shuffle(clone))
     }, [ gifData ])
 
+    // guesses logic
     useEffect(() => {
-        console.log(guesses)
+        // if the user has made 2 guesses
         if(guesses.secondGuess?.length) {
-            if(guesses.firstGuess === guesses.secondGuess) {
-                console.log('guesses match!')
-                setGuesses({ match: true })
+            // the two guesses match
+            if(guesses.firstGuess === guesses.secondGuess && !guesses.correctGuesses.includes(guesses.firstGuess)) {
+                let data = guesses.correctGuesses
+                data.push(guesses.firstGuess)
+                setGuesses({ ...guesses, correctGuesses: data, match: true, firstGuess: '', secondGuess: '' })
+
                 setTimeout(() => {
-                    setGuesses({ firstGuess: '', secondGuess: '', match: false })
+                    setGuesses({ ...guesses, match: false })
+                    console.log('made it')
                 }, 3000)
             }
         }
@@ -35,7 +46,8 @@ const Field = ({ gifData }) => {
         if(guesses.secondGuess?.length && !guesses.match) {
             console.log('guesses do not match')
             setTimeout(() => {
-                setGuesses({ firstGuess: '', secondGuess: '', match: false })
+                setGuesses({ ...guesses, firstGuess: '', secondGuess: '', match: false })
+                console.log('guesses cleared', guesses)
             }, 3000)
         }
 
@@ -64,6 +76,8 @@ const Field = ({ gifData }) => {
                     gifurl={ randGifs[index].images.original.webp }
                     guessHandler={ guessHandler }
                     index={ index }
+                    guesses={ guesses }
+                    correctGuesses={ guesses.correctGuesses }
                 />
             )
         }
@@ -91,7 +105,7 @@ const Field = ({ gifData }) => {
 
     return (
         <Container fluid="sm" >
-            Testo
+            Gamestats
             { getRows() }
         </Container>
     )

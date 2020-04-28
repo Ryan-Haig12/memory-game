@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import Col from 'react-bootstrap/Col'
 
-const Card = ({ gifurl, index, guessHandler }) => {
+const Card = ({ gifurl, index, guessHandler, guesses }) => {
 
     const [ showGif, setShowGif ] = useState(false)
 
     useEffect(() => {
-        if(showGif) {
-            // setTimeout(() => {
-            //     setShowGif(false)
-            // }, 4000)
+        if(guesses !== undefined && guesses !== null && guesses.correctGuesses !== undefined && guesses.correctGuesses !== null) {
+            if(gifurl !== guesses.firstGuess && gifurl !== guesses.secondGuess && !guesses.correctGuesses?.includes(gifurl)) {
+                setShowGif(false)
+            }
         }
-    }, [ showGif, setShowGif ])
+    }, [ gifurl, setShowGif, guesses ])
 
     return (
         <Col
