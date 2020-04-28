@@ -18,6 +18,7 @@ const Field = ({ gifData }) => {
         match: false,
         correctGuesses: []
     })
+    const [ called, setCalled ] = useState(false)
 
     // get 8 random gifs from gifdata
     useEffect(() => {
@@ -35,22 +36,22 @@ const Field = ({ gifData }) => {
                 let data = guesses.correctGuesses
                 data.push(guesses.firstGuess)
                 setGuesses({ ...guesses, correctGuesses: data, match: true, firstGuess: '', secondGuess: '' })
-
+                setCalled(true)
+                console.log('guesses match')
                 setTimeout(() => {
                     setGuesses({ ...guesses, match: false })
-                    console.log('made it')
+                    console.log('guesses don\'t match anymore')
+                }, 3000)
+            }
+            if(!guesses.match && !called) {
+                console.log('guesses do not match')
+                setTimeout(() => {
+                    setGuesses({ ...guesses, firstGuess: '', secondGuess: '', match: false })
+                    setCalled(false)
+                    console.log('guesses cleared')
                 }, 3000)
             }
         }
-
-        if(guesses.secondGuess?.length && !guesses.match) {
-            console.log('guesses do not match')
-            setTimeout(() => {
-                setGuesses({ ...guesses, firstGuess: '', secondGuess: '', match: false })
-                console.log('guesses cleared', guesses)
-            }, 3000)
-        }
-
     }, [ guesses ])
 
     const guessHandler = guess => {
