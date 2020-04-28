@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Col from 'react-bootstrap/Col'
 import Flip from 'react-reveal/Flip'
+import { Animated } from 'react-animated-css'
+
+import './Card.css'
 
 const Card = ({ gifurl, index, guessHandler, guesses }) => {
 
@@ -16,11 +19,11 @@ const Card = ({ gifurl, index, guessHandler, guesses }) => {
 
     return (
         <Col
+            className="face" 
             key={ index }
             style={{
                 'marginRight': '10px',
-                height: '17vh',
-                border: '1px solid red'
+                height: '17vh'
             }}
             onClick={ () => {
                 setShowGif(true)
