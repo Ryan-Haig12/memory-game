@@ -23,6 +23,9 @@ const Field = ({ gifData }) => {
         let gifs = _.shuffle(gifData).splice(0, 8)
         let clone = _.map(gifs, _.cloneDeep).concat(gifs)
         setRandGifs(_.shuffle(clone))
+
+        setGameStats({ clicks: 0, seconds: 0 })
+        setGuesses({ firstGuess: '', secondGuess: '', thirdGuess: '', correctGuesses: [] })
     }, [ gifData ])
 
     // guesses logic
