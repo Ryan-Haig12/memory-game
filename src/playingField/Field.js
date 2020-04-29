@@ -27,7 +27,6 @@ const Field = ({ gifData }) => {
 
     // guesses logic
     useEffect(() => {
-        console.log(guesses)
         // if the user has made 2 guesses
         if(guesses.secondGuess?.length) {
             const match = guesses.firstGuess === guesses.secondGuess
@@ -52,7 +51,6 @@ const Field = ({ gifData }) => {
         }
     }, [ guesses ])
 
-    // TODO: refactor, this fucking sucks
     const guessHandler = guess => {
         setGameStats({ ...gamestats, clicks: gamestats.clicks + 1 })
 
