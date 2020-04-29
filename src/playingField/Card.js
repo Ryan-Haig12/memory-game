@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Col from 'react-bootstrap/Col'
 import Flip from 'react-reveal/Flip'
-import { Animated } from 'react-animated-css'
 
 import './Card.css'
 
@@ -11,7 +10,7 @@ const Card = ({ gifurl, index, guessHandler, guesses }) => {
 
     useEffect(() => {
         if(guesses !== undefined && guesses !== null && guesses.correctGuesses !== undefined && guesses.correctGuesses !== null) {
-            if(gifurl !== guesses.firstGuess && gifurl !== guesses.secondGuess && !guesses.correctGuesses?.includes(gifurl)) {
+            if(gifurl !== guesses.firstGuess && gifurl !== guesses.secondGuess && gifurl !== guesses.thirdGuess && !guesses.correctGuesses?.includes(gifurl)) {
                 setShowGif(false)
             }
         }

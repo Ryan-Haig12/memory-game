@@ -9,16 +9,14 @@ const Field = ({ gifData }) => {
     const [ randGifs, setRandGifs ] = useState(undefined)
     const [ gamestats, setGameStats ] = useState({
         clicks: 0,
-        matches: 0,
         seconds: 0,
     })
     const [ guesses, setGuesses ] = useState({
         firstGuess: '',
         secondGuess: '',
-        match: false,
+        thirdGuess: '',
         correctGuesses: []
     })
-    const [ called, setCalled ] = useState(false)
 
     // get 8 random gifs from gifdata
     useEffect(() => {
@@ -29,38 +27,45 @@ const Field = ({ gifData }) => {
 
     // guesses logic
     useEffect(() => {
+        console.log(guesses)
         // if the user has made 2 guesses
         if(guesses.secondGuess?.length) {
+            const match = guesses.firstGuess === guesses.secondGuess
+            const match_2 = guesses.thirdGuess === guesses.secondGuess || guesses.firstGuess === guesses.thirdGuess
+
             // the two guesses match
-            if(guesses.firstGuess === guesses.secondGuess && !guesses.correctGuesses.includes(guesses.firstGuess)) {
+            if(match && !guesses.correctGuesses.includes(guesses.firstGuess)) {
                 let data = guesses.correctGuesses
                 data.push(guesses.firstGuess)
-                setGuesses({ ...guesses, correctGuesses: data, match: true, firstGuess: '', secondGuess: '' })
-                setCalled(true)
-                console.log('guesses match')
-                setTimeout(() => {
-                    setGuesses({ ...guesses, match: false })
-                    console.log('guesses don\'t match anymore')
-                }, 3000)
+                setGuesses({ ...guesses, correctGuesses: data, firstGuess: '', secondGuess: '', thirdGuess: '' })
             }
-            if(!guesses.match && !called) {
-                console.log('guesses do not match')
-                setTimeout(() => {
-                    setGuesses({ ...guesses, firstGuess: '', secondGuess: '', match: false })
-                    setCalled(false)
-                    console.log('guesses cleared')
-                }, 3000)
+
+            if(match_2 && !guesses.correctGuesses.includes(guesses.thirdGuess)) {
+                let data = guesses.correctGuesses
+                data.push(guesses.thirdGuess)
+                setGuesses({ ...guesses, correctGuesses: data, firstGuess: '', secondGuess: '', thirdGuess: '' })
+            }
+
+            if(!match && guesses.thirdGuess.length) {
+                setGuesses({ ...guesses, firstGuess: guesses.thirdGuess, secondGuess: '', thirdGuess: '' })
             }
         }
     }, [ guesses ])
 
+    // TODO: refactor, this fucking sucks
     const guessHandler = guess => {
+        setGameStats({ ...gamestats, clicks: gamestats.clicks + 1 })
+
         if(guesses.firstGuess === '') {
             setGuesses({ ...guesses, firstGuess: guess })
-            return
-        } else if(guesses.firstGuess.length) {
+        } 
+        
+        if(guesses.firstGuess.length) {
             setGuesses({ ...guesses, secondGuess: guess })
-            return
+        }
+
+        if(guesses.secondGuess.length) {
+            setGuesses({ ...guesses, thirdGuess: guess })
         }
     }
 
@@ -106,7 +111,8 @@ const Field = ({ gifData }) => {
 
     return (
         <Container fluid="sm" >
-            Gamestats
+            <div>{ `Clicks: ${ gamestats.clicks }` }</div>
+            <div>{ `Seconds: ${ gamestats.seconds }` }</div>
             { getRows() }
         </Container>
     )
