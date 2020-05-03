@@ -21,17 +21,18 @@ const InputBar = ({ setGifData, setSearching }) => {
         } catch(err) {
             console.log(err)
         }
-        
+
         setSearching(false)
         setLastSearch(imgurSearch)
     }
 
     return (
-        <div>
+        <div style={{ width: '50%' }}>
             <InputGroup>
                 <InputGroup.Prepend>
                     <Button
                         variant="outline-secondary"
+                        style={{ background: 'black', color: 'white'}}
                         onClick={ () => handleSearch() }
                     >
                         Search Giphy
@@ -42,6 +43,7 @@ const InputBar = ({ setGifData, setSearching }) => {
                     aria-describedby="inputGroup-sizing-default"
                     onChange={ e => setImgurSearch(e.target.value) }
                     onKeyPress={ e => { if(e.key === 'Enter') handleSearch() } }
+                    style={{ background: 'black', color: 'white'}}
                 />
             </InputGroup>
         </div>

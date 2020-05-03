@@ -7,6 +7,7 @@ import _ from 'lodash'
 
 import Card from './Card'
 import EmptySearchMessage from './EmptySearchMessage'
+import ErrorSearchMessage from './ErrorSearchMessage'
 
 const Field = ({ gifData, searching }) => {
     const [ randGifs, setRandGifs ] = useState(undefined)
@@ -128,9 +129,11 @@ const Field = ({ gifData, searching }) => {
 
     if(gifData === undefined || randGifs === undefined) return <EmptySearchMessage />
 
+    if(randGifs !== undefined && randGifs.length < 8) return <ErrorSearchMessage />
+
     return (
         <Container fluid="sm" >
-            <div>{ `Clicks: ${ gamestats.clicks }` }</div>
+            <div style={{ color: '#ededed' }} >{ `Clicks: ${ gamestats.clicks }` }</div>
             {
                 guesses.correctGuesses.length === 8 &&
                     <Modal.Dialog>
