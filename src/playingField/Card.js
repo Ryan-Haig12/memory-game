@@ -32,7 +32,7 @@ const Card = ({ gifurl, index, guessHandler, guesses }) => {
             { showGif &&
                 <Flip right>
                     <img 
-                        src={ gifurl } 
+                        src={ gifurl }
                         alt="Be patient..." 
                         style={{ width: '100%', height: '100%' }}
                     />
@@ -40,7 +40,7 @@ const Card = ({ gifurl, index, guessHandler, guesses }) => {
             }
             { !showGif && 
                 <Flip right>
-                    <img src={ '/img/back.jpg' } style={{ height: 'auto', maxWidth: '100%', maxHeight: '100%' }} ></img>
+                    <img alt='card' src={ '/img/back.jpg' } style={{ height: 'auto', maxWidth: '100%', maxHeight: '100%' }} ></img>
                 </Flip>
             }
         </Col>
