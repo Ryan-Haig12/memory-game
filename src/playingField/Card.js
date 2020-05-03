@@ -22,7 +22,7 @@ const Card = ({ gifurl, index, guessHandler, guesses }) => {
             key={ index }
             style={{
                 'marginRight': '10px',
-                height: '17vh'
+                height: '17vh',
             }}
             onClick={ () => {
                 setShowGif(true)
@@ -40,7 +40,7 @@ const Card = ({ gifurl, index, guessHandler, guesses }) => {
             }
             { !showGif && 
                 <Flip right>
-                    <div style={{ background: 'black', width: '100%', height: '100%' }} ></div>
+                    <img src={ '/img/back.jpg' } style={{ height: 'auto', maxWidth: '100%', maxHeight: '100%' }} ></img>
                 </Flip>
             }
         </Col>

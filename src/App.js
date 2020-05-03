@@ -8,7 +8,11 @@ const App = () => {
 
     return (
         <div>
-            <h1>Memory Game</h1>
+            <div style={{ display: 'block', width: '100%' }} >
+                <h1 style={{ float: 'left' }} >Memory Game</h1>
+                <img style={{ margin: '1vh' }}  src="/img/PoweredBy_200px-White_HorizLogo.png" />
+            </div>
+
             <InputBar setGifData={ setGifData } />
             <Field gifData={ gifData } />
         </div>
