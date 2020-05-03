@@ -5,7 +5,7 @@ import FormControl from 'react-bootstrap/FormControl'
 
 import axiosCreate from './api'
 
-const InputBar = ({ setGifData }) => {
+const InputBar = ({ setGifData, setSearching }) => {
     const [ imgurSearch, setImgurSearch ] = useState(undefined)
     const [ lastSearch, setLastSearch ] = useState(undefined)
 
@@ -14,12 +14,15 @@ const InputBar = ({ setGifData }) => {
 
         // i'm in love with this naming convention
         try {
+            setSearching(true)
+
             const data = await axiosCreate(imgurSearch)
             setGifData(data.data.data)
         } catch(err) {
             console.log(err)
         }
-
+        
+        setSearching(false)
         setLastSearch(imgurSearch)
     }
 
@@ -31,7 +34,7 @@ const InputBar = ({ setGifData }) => {
                         variant="outline-secondary"
                         onClick={ () => handleSearch() }
                     >
-                        Button
+                        Search Giphy
                     </Button>
                 </InputGroup.Prepend>
                 <FormControl

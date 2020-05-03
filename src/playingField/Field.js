@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Modal from 'react-bootstrap/Modal'
+import Spinner from 'react-bootstrap/Spinner'
 import _ from 'lodash'
 
 import Card from './Card'
 import EmptySearchMessage from './EmptySearchMessage'
 
-const Field = ({ gifData }) => {
+const Field = ({ gifData, searching }) => {
     const [ randGifs, setRandGifs ] = useState(undefined)
     const [ gamestats, setGameStats ] = useState({
         clicks: 0,
@@ -62,9 +63,7 @@ const Field = ({ gifData }) => {
             // if user has won, stop the timer and set the seconds played
             if(guesses.correctGuesses.length >= 8) {
                 const time = Date.now()
-                console.log('hi', time, gamestats)
                 let sec = (time - gamestats.startTime)
-                console.log('yeet', sec)
                 sec = Math.ceil(sec / 1000)
                 setGameStats({ ...gamestats, startTime: '', seconds: sec })
             }
@@ -124,6 +123,8 @@ const Field = ({ gifData }) => {
 
         return res
     }
+
+    if(searching) return <Spinner style={{ position: 'relative', left: '50%', marginTop: '10%' }} animation="border" role="status" />
 
     if(gifData === undefined || randGifs === undefined) return <EmptySearchMessage />
 
