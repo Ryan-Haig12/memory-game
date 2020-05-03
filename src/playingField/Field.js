@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row'
 import _ from 'lodash'
 
 import Card from './Card'
+import EmptySearchMessage from './EmptySearchMessage'
 
 const Field = ({ gifData }) => {
     const [ randGifs, setRandGifs ] = useState(undefined)
@@ -108,12 +109,13 @@ const Field = ({ gifData }) => {
         return res
     }
 
-    if(gifData === undefined || randGifs === undefined) return ( <div>No Gif Data</div> )
+    if(gifData === undefined || randGifs === undefined) return <EmptySearchMessage />
 
     return (
         <Container fluid="sm" >
             <div>{ `Clicks: ${ gamestats.clicks }` }</div>
             <div>{ `Seconds: ${ gamestats.seconds }` }</div>
+            { guesses.correctGuesses.length === 8 && <div>You Win!!!</div> }
             { getRows() }
         </Container>
     )
