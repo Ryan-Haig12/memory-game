@@ -11,6 +11,7 @@ import ErrorSearchMessage from './ErrorSearchMessage'
 
 const Field = ({ gifData, searching }) => {
     const [ randGifs, setRandGifs ] = useState(undefined)
+    let [ gameClock, setGameClock ] = useState(0)
     const [ gamestats, setGameStats ] = useState({
         clicks: 0,
         seconds: 0,
@@ -32,6 +33,11 @@ const Field = ({ gifData, searching }) => {
         setGameStats({ clicks: 0, seconds: 0, startTime: Date.now() })
         setGuesses({ firstGuess: '', secondGuess: '', thirdGuess: '', correctGuesses: [] })
     }, [ gifData ])
+
+    // this doesn't even update anything in the dom, this is only for re-rendering the component every second
+    setInterval(() => {
+        setGameClock(gameClock += 1)
+    }, 1000)
 
     // guesses logic
     useEffect(() => {
@@ -125,15 +131,15 @@ const Field = ({ gifData, searching }) => {
         return res
     }
 
+    // error/loading handling
     if(searching) return <Spinner style={{ position: 'relative', left: '50%', marginTop: '10%' }} animation="border" role="status" />
-
     if(gifData === undefined || randGifs === undefined) return <EmptySearchMessage />
-
     if(randGifs !== undefined && randGifs.length < 8) return <ErrorSearchMessage />
 
     return (
         <Container fluid="sm" >
             <div style={{ color: '#ededed' }} >{ `Clicks: ${ gamestats.clicks }` }</div>
+            <div style={{ color: '#ededed' }}>{ `Seconds: ${ Math.ceil((Date.now() - gamestats.startTime) / 1000) }` }</div>
             {
                 guesses.correctGuesses.length === 8 &&
                     <Modal.Dialog>
