@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
+import Modal from 'react-bootstrap/Modal'
 import _ from 'lodash'
 
 import Card from './Card'
@@ -11,6 +12,7 @@ const Field = ({ gifData }) => {
     const [ gamestats, setGameStats ] = useState({
         clicks: 0,
         seconds: 0,
+        startTime: 0
     })
     const [ guesses, setGuesses ] = useState({
         firstGuess: '',
@@ -25,7 +27,7 @@ const Field = ({ gifData }) => {
         let clone = _.map(gifs, _.cloneDeep).concat(gifs)
         setRandGifs(_.shuffle(clone))
 
-        setGameStats({ clicks: 0, seconds: 0 })
+        setGameStats({ clicks: 0, seconds: 0, startTime: Date.now() })
         setGuesses({ firstGuess: '', secondGuess: '', thirdGuess: '', correctGuesses: [] })
     }, [ gifData ])
 
@@ -43,6 +45,10 @@ const Field = ({ gifData }) => {
                 setGuesses({ ...guesses, correctGuesses: data, firstGuess: '', secondGuess: '', thirdGuess: '' })
             }
 
+            // I'm not a fan of this at all. This is saying that on a users 3rd guess, if it matches either of the first 2 guesses,
+            // then the user gets that guess correct. That's not true to this game...
+            // However, I can't change it for now. Removing this block unleashes worse bugs that would take a lot longer to deal with.
+            // That's why I'm leaving this for now, working on other parts of the app, and then resolving this
             if(match_2 && !guesses.correctGuesses.includes(guesses.thirdGuess)) {
                 let data = guesses.correctGuesses
                 data.push(guesses.thirdGuess)
@@ -52,8 +58,18 @@ const Field = ({ gifData }) => {
             if(!match && guesses.thirdGuess.length) {
                 setGuesses({ ...guesses, firstGuess: guesses.thirdGuess, secondGuess: '', thirdGuess: '' })
             }
+
+            // if user has won, stop the timer and set the seconds played
+            if(guesses.correctGuesses.length >= 8) {
+                const time = Date.now()
+                console.log('hi', time, gamestats)
+                let sec = (time - gamestats.startTime)
+                console.log('yeet', sec)
+                sec = Math.ceil(sec / 1000)
+                setGameStats({ ...gamestats, startTime: '', seconds: sec })
+            }
         }
-    }, [ guesses ])
+    }, [ guesses, gamestats, setGameStats ])
 
     const guessHandler = guess => {
         setGameStats({ ...gamestats, clicks: gamestats.clicks + 1 })
@@ -114,8 +130,20 @@ const Field = ({ gifData }) => {
     return (
         <Container fluid="sm" >
             <div>{ `Clicks: ${ gamestats.clicks }` }</div>
-            <div>{ `Seconds: ${ gamestats.seconds }` }</div>
-            { guesses.correctGuesses.length === 8 && <div>You Win!!!</div> }
+            {
+                guesses.correctGuesses.length === 8 &&
+                    <Modal.Dialog>
+                        <Modal.Header closeButton>
+                            <Modal.Title>You Win!</Modal.Title>
+                        </Modal.Header>
+
+                        <Modal.Body>
+                            <p>{ `You won in ${ gamestats.seconds } seconds` }</p>
+                            <p>Make another search in the input bar above to play again</p>
+                        </Modal.Body>
+                    </Modal.Dialog>
+            }
+
             { getRows() }
         </Container>
     )
