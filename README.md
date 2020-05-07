@@ -1,5 +1,5 @@
 # Memory-Game
-This project is an implementation of the classic memory card game. The idea is there are 16 cards on the screen and each card is part of a pair. Match 2 cards and they will remain on the screen. The goal is to find all 8 pairs in as little time and clicks as possible. 
+This project is an implementation of the classic memory card game. The idea is there are 16 cards on the screen and each card is part of a pair. Match 2 cards and they remain on the screen. The goal is to find all 8 pairs in as little time and clicks as possible. 
 
 # Playing the game
 The game is available at https://memory-game-haig.herokuapp.com/ or by cloning this repo and simply running:
