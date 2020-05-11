@@ -4,10 +4,25 @@ import Row from 'react-bootstrap/Row'
 import Modal from 'react-bootstrap/Modal'
 import Spinner from 'react-bootstrap/Spinner'
 import _ from 'lodash'
+import styled from 'styled-components'
 
 import Card from './Card'
 import EmptySearchMessage from './EmptySearchMessage'
 import ErrorSearchMessage from './ErrorSearchMessage'
+
+const StyledField = styled.div`
+    @media (max-width: 800px) {
+        margin: 15px !important;
+        padding: 30px !important;
+    }
+`
+
+const StyledCards = styled.div`
+    @media (max-width: 800px) {
+        margin: 5px !important;
+        padding: 5px !important;
+    }
+`
 
 const Field = ({ gifData, searching }) => {
     const [ randGifs, setRandGifs ] = useState(undefined)
@@ -101,14 +116,14 @@ const Field = ({ gifData, searching }) => {
         for(let j = 0; j < 4; j++) {
             const index = (i * 4) + j
             res.push(
-                <Card 
-                    key={ index }
-                    gifurl={ randGifs[index].images.original.webp }
-                    guessHandler={ guessHandler }
-                    index={ index }
-                    guesses={ guesses }
-                    correctGuesses={ guesses.correctGuesses }
-                />
+                    <Card 
+                        key={ index }
+                        gifurl={ randGifs[index].images.original.webp }
+                        guessHandler={ guessHandler }
+                        index={ index }
+                        guesses={ guesses }
+                        correctGuesses={ guesses.correctGuesses }
+                    />
             )
         }
 
@@ -122,7 +137,8 @@ const Field = ({ gifData, searching }) => {
             res.push((
                 <Row 
                     key={ i }
-                    style={{ margin: '5px', padding: '15px' }} >
+                    style={{ margin: '5px', padding: '5px' }}
+                >
                     { getCols(i) }
                 </Row>
             ))
@@ -137,25 +153,27 @@ const Field = ({ gifData, searching }) => {
     if(randGifs !== undefined && randGifs.length < 8) return <ErrorSearchMessage />
 
     return (
-        <Container fluid="sm" >
-            <div style={{ color: '#ededed' }} >{ `Clicks: ${ gamestats.clicks }` }</div>
-            <div style={{ color: '#ededed' }}>{ `Seconds: ${ Math.ceil((Date.now() - gamestats.startTime) / 1000) }` }</div>
-            {
-                guesses.correctGuesses.length === 8 &&
-                    <Modal.Dialog>
-                        <Modal.Header closeButton>
-                            <Modal.Title>You Win!</Modal.Title>
-                        </Modal.Header>
+        <StyledField>
+            <Container fluid="lg">
+                <div style={{ color: '#ededed' }} >{ `Clicks: ${ gamestats.clicks }` }</div>
+                <div style={{ color: '#ededed' }}>{ `Seconds: ${ Math.ceil((Date.now() - gamestats.startTime) / 1000) }` }</div>
+                {
+                    guesses.correctGuesses.length === 8 &&
+                        <Modal.Dialog>
+                            <Modal.Header closeButton>
+                                <Modal.Title>You Win!</Modal.Title>
+                            </Modal.Header>
 
-                        <Modal.Body>
-                            <p>{ `You won in ${ gamestats.seconds } seconds` }</p>
-                            <p>Make another search in the input bar above to play again</p>
-                        </Modal.Body>
-                    </Modal.Dialog>
-            }
+                            <Modal.Body>
+                                <p>{ `You won in ${ gamestats.seconds } seconds` }</p>
+                                <p>Make another search in the input bar above to play again</p>
+                            </Modal.Body>
+                        </Modal.Dialog>
+                }
 
-            { getRows() }
-        </Container>
+                { getRows() }
+            </Container>
+        </StyledField>
     )
 }
 

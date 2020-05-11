@@ -7,6 +7,10 @@ const StyledEmptyMessage = styled.div`
     position: relative;
     width: 50%;
     height: 100px;
+
+    @media (max-width: 400px) {
+        width: 100%;
+    }
 `
 
 const StyledMessageDiv = styled.div`

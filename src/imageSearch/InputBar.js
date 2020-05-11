@@ -27,7 +27,7 @@ const InputBar = ({ setGifData, setSearching }) => {
     }
 
     return (
-        <div style={{ width: '50%' }}>
+        <div style={{ width: '100%' }}>
             <InputGroup>
                 <InputGroup.Prepend>
                     <Button
