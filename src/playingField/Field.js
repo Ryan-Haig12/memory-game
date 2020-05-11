@@ -17,12 +17,12 @@ const StyledField = styled.div`
     }
 `
 
-const StyledCards = styled.div`
-    @media (max-width: 800px) {
-        margin: 5px !important;
-        padding: 5px !important;
-    }
-`
+// const StyledCards = styled.div`
+//     @media (max-width: 800px) {
+//         margin: 5px !important;
+//         padding: 5px !important;
+//     }
+// `
 
 const Field = ({ gifData, searching }) => {
     const [ randGifs, setRandGifs ] = useState(undefined)
@@ -116,14 +116,14 @@ const Field = ({ gifData, searching }) => {
         for(let j = 0; j < 4; j++) {
             const index = (i * 4) + j
             res.push(
-                    <Card 
-                        key={ index }
-                        gifurl={ randGifs[index].images.original.webp }
-                        guessHandler={ guessHandler }
-                        index={ index }
-                        guesses={ guesses }
-                        correctGuesses={ guesses.correctGuesses }
-                    />
+                <Card 
+                    key={ index }
+                    gifurl={ randGifs[index].images.original.webp }
+                    guessHandler={ guessHandler }
+                    index={ index }
+                    guesses={ guesses }
+                    correctGuesses={ guesses.correctGuesses }
+                />
             )
         }
 
@@ -154,25 +154,24 @@ const Field = ({ gifData, searching }) => {
 
     return (
         <StyledField>
-            <Container fluid="lg">
                 <div style={{ color: '#ededed' }} >{ `Clicks: ${ gamestats.clicks }` }</div>
                 <div style={{ color: '#ededed' }}>{ `Seconds: ${ Math.ceil((Date.now() - gamestats.startTime) / 1000) }` }</div>
                 {
                     guesses.correctGuesses.length === 8 &&
-                        <Modal.Dialog>
-                            <Modal.Header closeButton>
+                        <Modal.Dialog style={{ color: '#ededed', background: 'black' }}>
+                            <Modal.Header style={{ color: '#ededed', background: 'black' }}>
                                 <Modal.Title>You Win!</Modal.Title>
                             </Modal.Header>
 
-                            <Modal.Body>
+                            <Modal.Body style={{ color: '#ededed', background: 'black' }}>
                                 <p>{ `You won in ${ gamestats.seconds } seconds` }</p>
                                 <p>Make another search in the input bar above to play again</p>
                             </Modal.Body>
                         </Modal.Dialog>
                 }
 
-                { getRows() }
-            </Container>
+                
+            <Container fluid="sm">{ getRows() }</Container>
         </StyledField>
     )
 }

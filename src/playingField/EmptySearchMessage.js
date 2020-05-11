@@ -7,6 +7,7 @@ const StyledEmptyMessage = styled.div`
     position: relative;
     width: 50%;
     height: 100px;
+    color: #ededed;
 
     @media (max-width: 400px) {
         width: 100%;
@@ -24,7 +25,7 @@ const StyledMessageDiv = styled.div`
 
 const EmptySearchMessage = () => {
     return (
-        <StyledEmptyMessage style={{ color: '#ededed' }} >
+        <StyledEmptyMessage>
             <StyledMessageDiv>
                 <h2>Welcome to Memory Game!</h2>
                 <br />
@@ -32,7 +33,6 @@ const EmptySearchMessage = () => {
                 <p>Click one of these squares to reveal the gif behind. Try to match this gif with the corresponding gif behind the other squares.</p>
                 <p>Try to solve the puzzle in as little time and using as few clicks as possible!</p>
             </StyledMessageDiv>
-            
         </StyledEmptyMessage>
     )
 }
