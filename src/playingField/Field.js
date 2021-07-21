@@ -59,7 +59,12 @@ const Field = ({ gifData, searching }) => {
         setGameClock((gameClock += 1));
     }, 1000);
 
-    const functionNameThatsSuperHardToUnderstandPart1 = () => {
+    const functionNameThatsSuperHardToUnderstandPart1 = ({
+        name,
+        number,
+        anotherProp,
+    }) => {
+        console.log("EEE");
         return "yeet";
     };
     const toString = (str) => str.toString();
