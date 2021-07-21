@@ -26,8 +26,10 @@ const InputBar = ({ setGifData, setSearching }) => {
         setLastSearch(imgurSearch);
     };
 
-    const functionName = () => "test";
-    const functionName2 = () => "test2";
+    const functionNameThatsSuperHardToUnderstandPart1 = () => {
+        return "yeet";
+    };
+    const toString = (str) => str.toString();
 
     return (
         <div style={{ width: "100%" }}>
