@@ -26,40 +26,8 @@ const InputBar = ({ setGifData, setSearching }) => {
         setLastSearch(imgurSearch);
     };
 
-    const badFunctionNameLetsGoGetBEANISED_part_2 = (
-        argumentThatIsntProperlyNamed
-    ) => {
-        if (argumentThatIsntProperlyNamed == "a") {
-            console.log("a");
-            argumentThatIsntProperlyNamed = "b";
-        } else {
-            argumentThatIsntProperlyNamed = {
-                yeet: true,
-                vowel: "what",
-            };
-            return -1;
-        }
-        console.log("a b c d e ");
-        console.log("ddd");
-        return 1;
-    };
-
-    // repeat
-    if (argumentThatIsntProperlyNamed == "a") {
-        console.log("a");
-        argumentThatIsntProperlyNamed = "b";
-    } else {
-        argumentThatIsntProperlyNamed = {
-            yeet: true,
-            vowel: "what",
-        };
-        return -1;
-    }
-
-    let a = 1;
-    if ((a = 1)) {
-        badFunctionNameLetsGoGetBEANISED_part_2();
-    }
+    const functionName = () => "test";
+    const functionName2 = () => "test2";
 
     return (
         <div style={{ width: "100%" }}>
