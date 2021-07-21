@@ -40,6 +40,7 @@ const InputBar = ({ setGifData, setSearching }) => {
             return -1;
         }
         console.log("a b c d e ");
+        console.log("ddd");
         return 1;
     };
 
